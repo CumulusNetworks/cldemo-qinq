@@ -12,12 +12,11 @@ iface lo inet loopback
 auto eth0
 iface eth0 inet dhcp
 
+#The physical interface
+#Leaf03 is a trunk interface so the packet already arrives in double tagged
+#The 802.1ad vlan tag is not necessary
 auto swp1
 iface swp1
-
-auto swp1.100
-iface swp1.100
-  vlan-protocol 802.1ad
 
 auto swp51
 iface swp51
@@ -26,18 +25,11 @@ iface swp51
 auto bridge
 iface bridge
     bridge-ports swp1.100 vni15
-#    bridge-vids 100
-    bridge-vlan-aware no
     bridge-l2protocol-tunnel all
     bridge-vlan-aware no
-    bridge-vlan-protocol 802.1ad
 
 auto vni15
 iface vni15
-#    bridge-access 100
-#    bridge-learning off
-#    mstpctl-bpduguard yes
-#    mstpctl-portbpdufilter yes
     vxlan-id 15
     vxlan-local-tunnelip 10.255.255.3
     vxlan-remoteip 10.255.255.1

@@ -12,10 +12,20 @@ iface lo inet loopback
 auto eth0
 iface eth0 inet dhcp
 
+#The physical interface
 auto swp1
 iface swp1
-#    bridge-access 100
+
+#The vlan tagged interface that is specificed as 802.1ad vlan protocol
+#The vlan-protocol of 802.1ad is always at outer tag level
+#The vlan-protocol is needed under the interface to indicate the outer header format
+auto swp1.100
+iface swp1.100
   vlan-protocol 802.1ad
+
+#The inner tagged interface
+auto swp1.100.10
+iface swp1.100.10
 
 auto swp51
 iface swp51
@@ -23,19 +33,13 @@ iface swp51
 
 auto bridge
 iface bridge
-    bridge-ports swp1 vni15
-#    bridge-vids 100
+    bridge-ports swp1.100.10 vni15
     bridge-vlan-aware no
     bridge-l2protocol-tunnel all
     bridge-stp off
-    bridge-vlan-protocol 802.1ad
 
 auto vni15
 iface vni15
-#    bridge-access 100
-#    bridge-learning off
-#    mstpctl-bpduguard yes
-#    mstpctl-portbpdufilter yes
     vxlan-id 15
     vxlan-local-tunnelip 10.255.255.1
     vxlan-remoteip 10.255.255.3
