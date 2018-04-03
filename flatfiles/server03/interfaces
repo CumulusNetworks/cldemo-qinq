@@ -9,8 +9,5 @@ iface eth1
 
 auto eth1.100
 iface eth1.100
-  vlan-protocol 802.1ad
-
-auto eth1.100.10
-iface eth1.100.10
   address 10.0.100.13/24
+
