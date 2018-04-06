@@ -6,6 +6,7 @@ iface eth0 inet dhcp
 
 auto eth1
 iface eth1
+  vlan-protocol 802.1ad
 
 auto eth1.100
 iface eth1.100
